@@ -35,3 +35,47 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .error-text { color: #b42318; }
 .status-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .legend-item { background: #eef2f7; border-radius: 999px; padding: 2px 10px; }
+
+/* 页签与断面校核批次 */
+.tab-bar { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+.tab-item { position: relative; border: none; background: none; padding: 8px 16px; cursor: pointer; font-size: 14px; color: var(--muted); border-bottom: 2px solid transparent; }
+.tab-item.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+.tab-badge { font-style: normal; background: var(--brand); color: #fff; border-radius: 999px; font-size: 11px; padding: 0 7px; margin-left: 4px; }
+.muted { color: var(--muted); font-size: 12px; }
+.hint { color: var(--muted); font-size: 12px; margin: 4px 0 12px; }
+.inline-notice { display: block; margin: 0 0 12px; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+.inline-notice.ok { background: #ecfdf3; color: #027a48; border: 1px solid #abefc6; }
+.inline-notice.err { background: #fef3f2; color: #b42318; border: 1px solid #fda29b; }
+.empty-block { background: #fff; border: 1px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
+.batch-panel h3 { margin: 4px 0; font-size: 15px; }
+.section-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.section-card.has-error { border-color: #fda29b; background: #fffbfa; }
+.section-check { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 14px; }
+.data-table.inner { margin: 6px 0; }
+.section-meta { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+.batch-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.batch-form .remark { flex: 1; min-width: 220px; }
+.batch-form input, .batch-form select { padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; min-width: 160px; }
+.batch-submit { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.batch-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; }
+.batch-card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.batch-no { font-size: 15px; margin-right: 8px; }
+.batch-status { border-radius: 999px; padding: 2px 10px; font-size: 12px; margin-right: 8px; }
+.batch-status.tag-ok { background: #ecfdf3; color: #027a48; }
+.batch-status.tag-err { background: #fef3f2; color: #b42318; }
+.batch-status.tag-pending { background: #fffaeb; color: #b54708; }
+.batch-status.tag-muted { background: #f2f4f7; color: var(--muted); }
+.batch-meta { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+.draft-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+.draft-form input, .draft-form select { padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; min-width: 160px; }
+.draft-form .remark { flex: 1; min-width: 220px; }
+
+/* 水位整编核对待办 */
+.todo-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin: 12px 0; }
+.todo-panel h3 { margin: 0 0 4px; font-size: 15px; }
+.todo-table { margin-top: 8px; }
+.todo-done { color: var(--muted); }
+.todo-pill { border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+.todo-pill.wait { background: #fffaeb; color: #b54708; }
+.todo-pill.done { background: #f2f4f7; color: var(--muted); }

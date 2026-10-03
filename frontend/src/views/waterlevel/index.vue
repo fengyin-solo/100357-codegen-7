@@ -11,6 +11,48 @@
       </div>
     </header>
 
+    <section class="todo-panel">
+      <h3>水位整编待办 · 断面核对项</h3>
+      <p class="hint">断面校核批次整体通过后自动按断面立项；重复提交同一批次不会重复立项。</p>
+      <table v-if="todos.length" class="data-table todo-table">
+        <thead>
+          <tr>
+            <th>核对项</th>
+            <th>来源校核批次</th>
+            <th>站点编号</th>
+            <th>测次/测量日期</th>
+            <th>立项时间</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="todo in todos" :key="todo.id" :class="{ 'todo-done': todo.status === '已核对' }">
+            <td>{{ todo.title }}</td>
+            <td>{{ todo.sourceBatchNo }}</td>
+            <td>{{ todo.stationCode }}</td>
+            <td>{{ todo.measureCount }} 测次｜{{ todo.measureDates }}</td>
+            <td>{{ todo.createdAt }}</td>
+            <td>
+              <span class="todo-pill" :class="todo.status === '待核对' ? 'wait' : 'done'">{{ todo.status }}</span>
+            </td>
+            <td>
+              <button
+                v-if="todo.status === '待核对'"
+                class="link"
+                type="button"
+                @click="finishTodo(todo.id)"
+              >
+                确认核对
+              </button>
+              <span v-else>{{ todo.checkedAt }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-else class="muted">暂无待核对项：断面校核批次整体通过后会按断面自动生成。</p>
+    </section>
+
     <div class="stat-row">
       <article v-for="item in stats" :key="item.label" class="stat-card">
         <span class="stat-label">{{ item.label }}</span>
@@ -79,7 +121,8 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
-import type { EntryRow } from '@/data/types'
+import { checkCompilationTodo, listCompilationTodos } from '@/api/crosscheck-batch'
+import type { CompilationTodo, EntryRow } from '@/data/types'
 
 const meta = moduleMeta('waterlevel')
 const columns = ["记录编号", "站点编号", "观测时间", "当前水位", "警戒水位", "保证水位", "水位变幅", "记录状态"]
@@ -88,6 +131,7 @@ const statuses = ["已采集", "待审核", "已通过", "异常值"]
 const stats = [{"label": "今日采集数", "value": 0}, {"label": "超警戒站次", "value": 0}, {"label": "待审核记录", "value": 0}]
 
 const rows = ref<EntryRow[]>([])
+const todos = ref<CompilationTodo[]>([])
 const total = ref(0)
 const errorMessage = ref('')
 const filters = ref<Record<string, string>>({})
@@ -133,5 +177,17 @@ function reload() {
   }
 }
 
-onMounted(reload)
+function reloadTodos() {
+  todos.value = listCompilationTodos()
+}
+
+function finishTodo(id: string) {
+  checkCompilationTodo(id)
+  reloadTodos()
+}
+
+onMounted(() => {
+  reload()
+  reloadTodos()
+})
 </script>

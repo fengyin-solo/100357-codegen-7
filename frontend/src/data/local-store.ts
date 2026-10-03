@@ -57,3 +57,43 @@ export function resetRows(key: string): EntryRow[] {
 export function storageKey(): string {
   return STORAGE_KEY
 }
+
+// 附属数据：断面校核批次、水位整编核对待办等非「业务条目」对象，单独放一个命名空间。
+const EXTRA_STORAGE_KEY = 'hydrology-monitor-station:extras'
+
+function readExtras(): Record<string, unknown> {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return {}
+  }
+  const raw = window.localStorage.getItem(EXTRA_STORAGE_KEY)
+  if (!raw) {
+    return {}
+  }
+  try {
+    return JSON.parse(raw) as Record<string, unknown>
+  } catch {
+    return {}
+  }
+}
+
+let extraCache: Record<string, unknown> | null = null
+
+function extraStore(): Record<string, unknown> {
+  if (extraCache === null) {
+    extraCache = readExtras()
+  }
+  return extraCache
+}
+
+export function readExtra<T>(key: string, fallback: T): T {
+  const value = extraStore()[key]
+  return value === undefined ? clone(fallback) : clone(value as T)
+}
+
+export function writeExtra<T>(key: string, value: T): void {
+  const next = { ...extraStore(), [key]: clone(value) }
+  extraCache = next
+  if (typeof window !== 'undefined' && window.localStorage) {
+    window.localStorage.setItem(EXTRA_STORAGE_KEY, JSON.stringify(next))
+  }
+}
