@@ -67,6 +67,8 @@
       <span>共 {{ total }} 条水位监测记录</span>
       <span v-if="errorMessage" class="error-text">{{ errorMessage }}</span>
     </footer>
+
+    <CrossCheckTodos />
   </section>
 </template>
 
@@ -79,6 +81,7 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import CrossCheckTodos from '@/components/CrossCheckTodos.vue'
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('waterlevel')
